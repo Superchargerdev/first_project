@@ -10,32 +10,37 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class FirstController extends AbstractController
 {
-    private $em;
+    // private $em;
+    // private $movieRepository;
+    // public function __construct(EntityManagerInterface $em, MovieRepository $movieRepository) 
+    // {
+    //     $this->em = $em;
+    //     $this->movieRepository = $movieRepository;
+    // }
+
     private $movieRepository;
-    public function __construct(EntityManagerInterface $em, MovieRepository $movieRepository) 
+    public function __construct(MovieRepository $movieRepository)
     {
-        $this->em = $em;
         $this->movieRepository = $movieRepository;
     }
 
     #[Route('/first', name: 'app_first')]
     public function index(): Response
     {
-        $movies = $this->movieRepository->findAll();
 
         return $this->render('movies/index.html.twig', [
-            'movies' => $movies
+            'movies' => $this->movieRepository->findAll()
         ]);
     }
     
-    #[Route('/movies/{id}', methods: ['GET'], name: 'show_movie')]
-    public function show($id): Response
-    {
-        $movie = $this->movieRepository->find($id);
+    // #[Route('/movies/{id}', methods: ['GET'], name: 'show_movie')]
+    // public function show($id): Response
+    // {
+    //     $movie = $this->movieRepository->find($id);
         
-        return $this->render('movies/show.html.twig', [
-            'movie' => $movie
-        ]);
-    }
+    //     return $this->render('movies/show.html.twig', [
+    //         'movie' => $movie
+    //     ]);
+    // }
 
 }
