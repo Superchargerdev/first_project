@@ -90,7 +90,7 @@ class FirstController extends AbstractController
                         catch(FileException $e){
                             return new Response ($e->getMessage());
                         }
-                        $movie -> setImagePath('/uploads/'. $newFileName);
+                        $movie->setImagePath('/uploads/'. $newFileName);
                         $movie->setTitle($form->get('title')->getData());
                         $movie->setReleaseYear($form->get('releaseYear')->getData());
                         $movie->setDescription($form->get('description')->getData());
@@ -110,6 +110,13 @@ class FirstController extends AbstractController
             'movie' => $movie,
             'form' => $form->createView()
         ]);
+    }
+    #[Route('/movies/delete/{id}', methods: ['GET', 'DELETE'], name: 'delete_movie')]
+    public function delete($id) : Response{
+        $movie = $this->movieRepository->find($id);
+        $this->em->remove($movie);
+        $this->em->flush();
+        return $this->redirectToRoute('movies');
     }
     #[Route('/movies/{id}', methods: ['GET'], name: 'show_movie')]
     public function show($id): Response
